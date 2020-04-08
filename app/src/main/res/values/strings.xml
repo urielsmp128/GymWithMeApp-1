@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">GymWithMe</string>
+    <string name="login">Log In</string>
+
+    <string name="drawer_home">Home</string>
+    <string name="drawer_friends">Friends</string>
+    <string name="drawer_workout">Workout</string>
+
 </resources>
