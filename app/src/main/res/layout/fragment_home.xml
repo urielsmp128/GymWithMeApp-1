@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment" >
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:text="Start Working Out!"
+        android:textSize="30sp" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="256dp"
@@ -24,5 +33,6 @@
         app:iconSize="128dp"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GymWithMeApp.Button.Circle"
         />
+
 
     </RelativeLayout>
