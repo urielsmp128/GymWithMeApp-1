@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment" >
+    tools:context=".HomeFragment">
 
 
     <TextView
@@ -12,27 +12,25 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"
-        android:text="Start Working Out!"
+        android:text="@string/start_working_out"
         android:textSize="30sp" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="256dp"
         android:layout_height="256dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="bottom|end"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
         android:padding="0dp"
-        android:layout_gravity="bottom|end"
-        android:layout_centerInParent="true"
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_weight_lifter"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="128dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GymWithMeApp.Button.Circle"
-        />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GymWithMeApp.Button.Circle" />
 
-
-    </RelativeLayout>
+</RelativeLayout>

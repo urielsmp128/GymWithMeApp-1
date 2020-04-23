@@ -1,70 +1,48 @@
 package com.itesm.gymwithme
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var drawer: DrawerLayout
-    private lateinit var toolbar: Toolbar
-    private lateinit var nv: NavigationView
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // get components
-        drawer = findViewById(R.id.drawer_layout)
-        toolbar = findViewById(R.id.toolbar)
-        nv = findViewById(R.id.nav_view)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
-        // because we remove the action bar, set the new toolbar as action bar
-        setSupportActionBar(toolbar)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.home_fragment, R.id.about_fragment,
+                R.id.workout_fragment, R.id.social_fragment), drawerLayout)
 
-        // set Listener for nav view
-        nv.setNavigationItemSelectedListener(this)
-
-        toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
-            nv.setCheckedItem(R.id.i_home)
-        }
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        findViewById<NavigationView>(R.id.nav_view).setupWithNavController(navController)
     }
 
+
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-        when (item.itemId) {
-            R.id.i_home -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment()).commit()
-            }
-            R.id.i_friends -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SocialFragment()).commit()
-            }
-            R.id.i_workout -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, WorkoutFragment()).commit()
-            }
-            else -> return false
-        }
-        drawer.closeDrawer(GravityCompat.START)
-        return true
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp(appBarConfiguration)
     }
 
 }
