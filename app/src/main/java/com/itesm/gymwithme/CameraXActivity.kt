@@ -1,28 +1,32 @@
 package com.itesm.gymwithme
 
 import android.Manifest
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.os.Bundle
-import android.util.Size
 import android.view.Surface
 import android.view.TextureView
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.Preview
-import androidx.camera.core.PreviewConfig
+import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import java.util.concurrent.Executors
 
-
-private const val REQUEST_CODE_PERMISSIONS = 10
-private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-
-
 class CameraXActivity : AppCompatActivity(), LifecycleOwner {
+
+    private val REQUEST_CODE_PERMISSIONS = 10
+    private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +53,11 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
 
     private fun startCamera() {
 
-        val previewConfig = PreviewConfig.Builder().apply {
-            setTargetResolution(Size(640, 480))
-        }.build()
+        // Camera Preview
+        // Create configuration object for the viewfinder use case
+        val previewConfig = PreviewConfig.Builder()
+                .setLensFacing(CameraX.LensFacing.BACK)
+                .build()
 
         // Build the viewfinder use case
         val preview = Preview(previewConfig)
@@ -63,63 +69,93 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
             val parent = viewFinder.parent as ViewGroup
             parent.removeView(viewFinder)
             parent.addView(viewFinder, 0)
-
             viewFinder.surfaceTexture = it.surfaceTexture
             updateTransform()
         }
 
-/*        val imageCaptureConfig = ImageCaptureConfig.Builder()
-                .apply {
-                    // We don't set a resolution for image capture; instead, we
-                    // select a capture mode which will infer the appropriate
-                    // resolution based on aspect ration and requested mode
-                    setCaptureMode(ImageCapture.CaptureMode.MIN_LATENCY)
-                }.build()
+        // Image analysis
+        val imageAnalysisConfig = ImageAnalysisConfig.Builder()
+                .build()
 
-        // Build the image capture use case and attach button click listener
-        val imageCapture = ImageCapture(imageCaptureConfig)
-        findViewById<ImageButton>(R.id.capture_button).setOnClickListener {
-            val file = File(externalMediaDirs.first(),
-                    "${System.currentTimeMillis()}.jpg")
+        val imageAnalysis = ImageAnalysis(imageAnalysisConfig)
 
-            imageCapture.takePicture(file, executor,
-                    object : ImageCapture.OnImageSavedListener {
-                        override fun onError(
-                                imageCaptureError: ImageCapture.ImageCaptureError,
-                                message: String,
-                                exc: Throwable?
-                        ) {
-                            val msg = "Photo capture failed: $message"
-                            Log.e("CameraXApp", msg, exc)
-                            viewFinder.post {
-                                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        val qrCodeAnalyzer = QRCodeAnalyzer { qrCodes ->
+            if (qrCodes.isNotEmpty()) {
+                CameraX.unbind(imageAnalysis)
+                val title = qrCodes[0].url!!.title
+                val url = qrCodes[0].url!!.url
+
+                AlertDialog.Builder(this)
+                        .setTitle(title)
+                        .setMessage("$url")
+                        .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener{ dialog, id ->
+                            finish()
+                        })
+                        .create()
+                        .show()
+            }
+        }
+
+        imageAnalysis.setAnalyzer(executor, qrCodeAnalyzer)
+
+        CameraX.bindToLifecycle(this as LifecycleOwner, preview, imageAnalysis)
+    }
+
+    private fun degreesToFirebaseRotation(degrees: Int): Int = when(degrees) {
+        0 -> FirebaseVisionImageMetadata.ROTATION_0
+        90 -> FirebaseVisionImageMetadata.ROTATION_90
+        180 -> FirebaseVisionImageMetadata.ROTATION_180
+        270 -> FirebaseVisionImageMetadata.ROTATION_270
+        else -> throw Exception("Rotation must be 90, 180, 270 or 0")
+    }
+
+    private fun scanBarcodes(image: FirebaseVisionImage) {
+
+        val options = FirebaseVisionBarcodeDetectorOptions.Builder()
+                .setBarcodeFormats(
+                        FirebaseVisionBarcode.FORMAT_QR_CODE)
+                .build()
+
+        val detector = FirebaseVision.getInstance()
+                .getVisionBarcodeDetector(options)
+
+        val result = detector.detectInImage(image)
+                .addOnSuccessListener { barcodes ->
+
+                    for (barcode in barcodes) {
+                        val bounds = barcode.boundingBox
+                        val corners = barcode.cornerPoints
+
+                        val rawValue = barcode.rawValue
+
+                        val valueType = barcode.valueType
+                        // See API reference for complete list of supported types
+                        when (valueType) {
+
+                            FirebaseVisionBarcode.TYPE_URL -> {
+                                val title = barcode.url!!.title
+                                val url = barcode.url!!.url
+
+                                AlertDialog.Builder(this)
+                                        .setTitle(title)
+                                        .setMessage("$url")
+                                        .setPositiveButton(android.R.string.ok, null)
+                                        .create()
+                                        .show()
+
                             }
                         }
+                    }
 
-                        override fun onImageSaved(file: File) {
-                            val msg = "Photo capture succeeded: ${file.absolutePath}"
-                            Log.d("CameraXApp", msg)
-                            viewFinder.post {
-                                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    })*/
-        // }
+                }
 
-        // Bind use cases to lifecycle
-        // If Android Studio complains about "this" being not a LifecycleOwner
-        // try rebuilding the project or updating the appcompat dependency to
-        // version 1.1.0 or higher.
-//        CameraX.bindToLifecycle(this, preview, ImageCapture)
     }
 
     private fun updateTransform() {
         val matrix = Matrix()
-
         // Compute the center of the view finder
         val centerX = viewFinder.width / 2f
         val centerY = viewFinder.height / 2f
-
         // Correct preview output to account for display rotation
         val rotationDegrees = when(viewFinder.display.rotation) {
             Surface.ROTATION_0 -> 0
