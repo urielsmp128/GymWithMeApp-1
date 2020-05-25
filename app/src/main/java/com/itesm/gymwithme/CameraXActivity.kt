@@ -101,56 +101,6 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         CameraX.bindToLifecycle(this as LifecycleOwner, preview, imageAnalysis)
     }
 
-    private fun degreesToFirebaseRotation(degrees: Int): Int = when(degrees) {
-        0 -> FirebaseVisionImageMetadata.ROTATION_0
-        90 -> FirebaseVisionImageMetadata.ROTATION_90
-        180 -> FirebaseVisionImageMetadata.ROTATION_180
-        270 -> FirebaseVisionImageMetadata.ROTATION_270
-        else -> throw Exception("Rotation must be 90, 180, 270 or 0")
-    }
-
-    private fun scanBarcodes(image: FirebaseVisionImage) {
-
-        val options = FirebaseVisionBarcodeDetectorOptions.Builder()
-                .setBarcodeFormats(
-                        FirebaseVisionBarcode.FORMAT_QR_CODE)
-                .build()
-
-        val detector = FirebaseVision.getInstance()
-                .getVisionBarcodeDetector(options)
-
-        val result = detector.detectInImage(image)
-                .addOnSuccessListener { barcodes ->
-
-                    for (barcode in barcodes) {
-                        val bounds = barcode.boundingBox
-                        val corners = barcode.cornerPoints
-
-                        val rawValue = barcode.rawValue
-
-                        val valueType = barcode.valueType
-                        // See API reference for complete list of supported types
-                        when (valueType) {
-
-                            FirebaseVisionBarcode.TYPE_URL -> {
-                                val title = barcode.url!!.title
-                                val url = barcode.url!!.url
-
-                                AlertDialog.Builder(this)
-                                        .setTitle(title)
-                                        .setMessage("$url")
-                                        .setPositiveButton(android.R.string.ok, null)
-                                        .create()
-                                        .show()
-
-                            }
-                        }
-                    }
-
-                }
-
-    }
-
     private fun updateTransform() {
         val matrix = Matrix()
         // Compute the center of the view finder

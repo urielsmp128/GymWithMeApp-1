@@ -22,4 +22,9 @@
         android:name="com.itesm.gymwithme.ui.QRScanWorkoutFragment"
         android:label="@string/menu_qr"
         tools:layout="@layout/fragment_qr_scan_workout" />
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.itesm.gymwithme.ui.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

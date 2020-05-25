@@ -6,17 +6,80 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/home_text"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/home_explain"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:layout_marginBottom="20dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/main_button"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/colorAccent"
+                android:src="@drawable/ic_menu_qr_scan_workout"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="25dp">
+            <ImageButton
+                android:id="@+id/button_scan"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/colorLight"
+                android:src="@drawable/ic_menu_camera"/>
+            <ImageButton
+                android:id="@+id/button_friends"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round"
+                android:backgroundTint="@color/colorMedium"
+                android:src="@drawable/ic_menu_friends"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
