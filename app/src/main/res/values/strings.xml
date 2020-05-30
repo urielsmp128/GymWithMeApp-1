@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">GymWithMe</string>
-    <string name="login">Log In</string>
 
     <string name="drawer_home">Home</string>
     <string name="drawer_friends">Friends</string>
@@ -38,5 +37,13 @@
     <string name="menu_more">More</string>
     <string name="home_text">Gym With Me!</string>
     <string name="home_explain">Press the button to start the workout</string>
+
+    <!-- login -->
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

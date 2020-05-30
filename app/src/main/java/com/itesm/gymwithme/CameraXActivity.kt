@@ -1,11 +1,10 @@
 package com.itesm.gymwithme
 
 import android.Manifest
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Log
 import android.view.Surface
 import android.view.TextureView
 import android.view.ViewGroup
@@ -16,11 +15,6 @@ import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
-import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOptions
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import java.util.concurrent.Executors
 
 class CameraXActivity : AppCompatActivity(), LifecycleOwner {
@@ -88,9 +82,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                 AlertDialog.Builder(this)
                         .setTitle(title)
                         .setMessage("$url")
-                        .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener{ dialog, id ->
-                            finish()
-                        })
+                        .setPositiveButton(android.R.string.ok) { _, _ -> finish() }
                         .create()
                         .show()
             }

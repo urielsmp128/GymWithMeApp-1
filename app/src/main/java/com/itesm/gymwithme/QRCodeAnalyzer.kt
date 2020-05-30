@@ -9,6 +9,7 @@ import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetectorOption
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 
+//
 class QRCodeAnalyzer(
         private val onQrCodesDetected: (qrCodes: List<FirebaseVisionBarcode>) -> Unit
 ): ImageAnalysis.Analyzer {
@@ -23,8 +24,8 @@ class QRCodeAnalyzer(
         val mediaImage = image?.image
         val imageRotation = degreesToFirebaseRotation(rotationDegrees)
         if (mediaImage != null) {
-            val image = FirebaseVisionImage.fromMediaImage(mediaImage, imageRotation)
-            detector.detectInImage(image)
+            val firebaseVisionImage = FirebaseVisionImage.fromMediaImage(mediaImage, imageRotation)
+            detector.detectInImage(firebaseVisionImage)
                     .addOnSuccessListener { barcodes ->
                         onQrCodesDetected(barcodes)
                     }
