@@ -24,21 +24,21 @@
             android:src="@drawable/ic_menu_qr_scan_workout"/>
 
         <!-- Etiqueta usuario -->
-
-        -<com.google.android.material.textfield.TextInputLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp">
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:hint="@string/username"
-            android:inputType="text"
-            android:id="@+id/inUser" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/username">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                android:id="@+id/inUser"
+                android:background="@null" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Etiqueta contraseña -->
 
