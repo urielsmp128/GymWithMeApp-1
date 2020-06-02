@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
-    private const val URL = "http://192.168.1.68:8001/api/user/"
+    private const val URL = "https://gym-with-me.herokuapp.com/api/user/"
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
