@@ -66,6 +66,13 @@
             android:text="@string/login"
             android:padding="12dp" />
 
+        <Button
+            android:id="@+id/to_register_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="register" />
+
+
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"

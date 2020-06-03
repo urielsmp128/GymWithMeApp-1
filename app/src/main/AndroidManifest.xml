@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegisterActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CameraXActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".QRCodeAnalyzer" />
         <activity
             android:name=".LoginActivity"

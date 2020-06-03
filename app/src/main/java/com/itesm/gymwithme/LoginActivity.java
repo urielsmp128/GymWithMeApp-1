@@ -20,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText usernameEdit, passwordEdit;
     ProgressBar progressBar;
 
+    private Button toRegisterButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +30,22 @@ public class LoginActivity extends AppCompatActivity {
         passwordEdit = findViewById(R.id.inPassword);
         progressBar = findViewById(R.id.progress_bar);
 
+        toRegisterButton = findViewById(R.id.to_register_button);
+
         login= (Button)findViewById(R.id.button_login);
         login.setOnClickListener(v -> {
 
             progressBar.setVisibility(View.VISIBLE);
 
-            LoginUser loginUser = new LoginUser(usernameEdit.getText().toString().trim(),
+            User user = new User(usernameEdit.getText().toString().trim(),
                     passwordEdit.getText().toString().trim());
 
             GymService gymService = ServiceBuilder.INSTANCE.buildService(GymService.class);
 
-            Call<LoginUser> loginCall = gymService.logIn(loginUser);
-            loginCall.enqueue(new Callback<LoginUser>() {
+            Call<User> loginCall = gymService.logIn(user);
+            loginCall.enqueue(new Callback<User>() {
                 @Override
-                public void onResponse(Call<LoginUser> call, Response<LoginUser> response) {
+                public void onResponse(Call<User> call, Response<User> response) {
 
                     if (!response.isSuccessful()) {
                         if (response.code() == 400) {
@@ -70,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<LoginUser> call, Throwable t) {
+                public void onFailure(Call<User> call, Throwable t) {
 
                     Toast.makeText(
                             LoginActivity.this,
@@ -81,6 +85,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
+        });
+
+        toRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }

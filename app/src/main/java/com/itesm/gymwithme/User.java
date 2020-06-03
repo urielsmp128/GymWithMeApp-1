@@ -2,15 +2,29 @@ package com.itesm.gymwithme;
 
 import android.os.Bundle;
 
-public class LoginUser {
+public class User {
 
     private String username;
     private String password;
     private String token;
 
-    public LoginUser(String userId, String password) {
+    private String name;
+    private Integer age;
+    private String gender;
+    private String beenWorkingOutFor;
+
+    public User(String userId, String password) {
         this.username = userId;
         this.password = password;
+    }
+
+    public User(String username, String password, String name, Integer age, String gender, String beenWorkingOutFor) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.beenWorkingOutFor = beenWorkingOutFor;
     }
 
     public String getUsername() {
