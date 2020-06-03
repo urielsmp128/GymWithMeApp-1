@@ -52,5 +52,11 @@
     <string name="gwm_logo">gym with me logo</string>
     <string name="or">or</string>
     <string name="logout">Log Out</string>
+    <string name="workout">Workout</string>
+    <string name="scan">Scan</string>
+    <string name="content_description_start_workout">Start WorkOut</string>
+    <string name="friends">Friends</string>
+    <string name="welcome_msg">Welcome to the fittest app ever</string>
+    <string name="home_instructions">What do you want to do today?</string>
 
 </resources>

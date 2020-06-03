@@ -6,4 +6,5 @@
     <color name="colorText">#8e8e8e</color>
     <color name="colorLight">#b3e6ff</color>
     <color name="colorMedium">#248f8f</color>
+    <color name="colorCardSecondary">#f97662</color>
 </resources>
