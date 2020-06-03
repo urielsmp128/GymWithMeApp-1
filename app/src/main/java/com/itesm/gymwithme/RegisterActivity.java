@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -25,12 +24,12 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
     private Button registerButton;
     private Button cancelButton;
 
-    private EditText nameText;
-    private EditText ageText;
-    private EditText genderText;
-    private EditText usernameText;
-    private EditText passwordText;
-    private EditText beenWorkingOutText;
+    private TextInputLayout nameText;
+    private TextInputLayout ageText;
+    private TextInputLayout genderText;
+    private TextInputLayout usernameText;
+    private TextInputLayout passwordText;
+    private TextInputLayout beenWorkingOutText;
 
     private ProgressBar progressBar;
 
@@ -85,21 +84,19 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
         registerButton = findViewById(R.id.button_register);
         cancelButton = findViewById(R.id.button_cancel);
 
-        nameText = ((TextInputLayout) findViewById(R.id.name_text)).getEditText();
-        ageText = ((TextInputLayout) findViewById(R.id.age_text)).getEditText();
-        genderText = ((TextInputLayout) findViewById(R.id.gender_text)).getEditText();
-        usernameText = ((TextInputLayout) findViewById(R.id.username_text)).getEditText();
-        passwordText = ((TextInputLayout) findViewById(R.id.password_text)).getEditText();
-        beenWorkingOutText = ((TextInputLayout) findViewById(R.id.working_out_text)).getEditText();
+        nameText = findViewById(R.id.name_text);
+        ageText = findViewById(R.id.age_text);
+        genderText = findViewById(R.id.gender_text);
+        usernameText = findViewById(R.id.username_text);
+        passwordText = findViewById(R.id.password_text);
+        beenWorkingOutText = findViewById(R.id.working_out_text);
 
         progressBar = findViewById(R.id.progressBar);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerButton.setEnabled(false);
-                cancelButton.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
+                setInProgress(true);
                 registerUser();
             }
         });
@@ -120,14 +117,42 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
     }
 
     private void registerUser() {
-        User user = new User(usernameText.getText().toString(),
-                passwordText.getText().toString(),
-                nameText.getText().toString(),
-                Integer.valueOf(ageText.getText().toString()),
-                genderText.getText().toString(),
-                beenWorkingOutText.getText().toString());
+
+        String usernameInput = usernameText.getEditText().getText().toString().trim();
+        String passwordInput = passwordText.getEditText().getText().toString().trim();
+        String nameInput = nameText.getEditText().getText().toString().trim();
+        String ageInput = ageText.getEditText().getText().toString().trim();
+        String genderInput = genderText.getEditText().getText().toString().trim();
+        String beenWOInput = beenWorkingOutText.getEditText().getText().toString().trim();
+
+        boolean validUsername = InputValidation.isValid(usernameText, usernameInput, "username",
+                20, false);
+
+        boolean validPassword = InputValidation.isValid(passwordText, passwordInput, "password",
+                50, true);
+
+        boolean validName = InputValidation.isValid(nameText, nameInput, "name", 50,
+                true);
+
+        boolean validAge = InputValidation.isValidAge(ageText, ageInput);
+
+        boolean validGender = InputValidation.isValidGender(genderText, genderInput);
+
+        if (!validUsername || !validPassword || !validName || !validAge || !validGender ) {
+            setInProgress(false);
+            return;
+        }
+
+        User user = new User(usernameInput, passwordInput, nameInput, Integer.valueOf(ageInput),
+                genderInput, beenWOInput);
 
         UserManager.register(user, this);
+    }
+
+    private void setInProgress(boolean inProgress) {
+        progressBar.setVisibility(inProgress ? View.VISIBLE : View.GONE);
+        cancelButton.setVisibility(inProgress ? View.GONE : View.VISIBLE);
+        registerButton.setEnabled(!inProgress);
     }
 
     @Override
@@ -143,5 +168,6 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
     @Override
     public void onFailure(Call<User> call, Throwable t) {
         Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        setInProgress(false);
     }
 }
