@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
 
     private Button toRegisterButton;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
         progressBar = findViewById(R.id.progress_bar);
         toRegisterButton = findViewById(R.id.to_register_button);
         loginButton = findViewById(R.id.login_button);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         loginButton.setOnClickListener(v -> {
 
@@ -64,6 +68,17 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
                 startActivity(intent);
             }
         });
+
+        // If user already is logged in
+        if (sessionManager.getLogin()) {
+            // Redirect to main
+            redirectToMainActivity();
+        }
+    }
+
+    private void redirectToMainActivity() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
 
     private void setInProgress(boolean inProgress) {
@@ -86,10 +101,15 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
             return;
         }
 
+        // Get token
         String token = response.headers().get("auth-token");
-        Intent firstIntent = new Intent(LoginActivity.this, MainActivity.class);
-        firstIntent.putExtra("auth-token", token);
-        startActivity(firstIntent);
+        // Store login session
+        sessionManager.setLogin(true);
+        // Store token session
+        sessionManager.setToken(token);
+        // Redirect to main
+        redirectToMainActivity();
+        // Finish activity
         finish();
     }
 
