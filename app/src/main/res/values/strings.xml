@@ -50,5 +50,6 @@
     <string name="gender">Gender</string>
     <string name="working_out">How long have you been working out?</string>
     <string name="gwm_logo">gym with me logo</string>
+    <string name="or">or</string>
 
 </resources>

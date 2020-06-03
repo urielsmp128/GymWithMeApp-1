@@ -10,15 +10,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Callback<User> {
 
-    Button login;
-    EditText usernameEdit, passwordEdit;
-    ProgressBar progressBar;
+    private Button loginButton;
+    private TextInputLayout usernameText, passwordText;
+    private ProgressBar progressBar;
 
     private Button toRegisterButton;
 
@@ -26,65 +28,33 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameEdit = findViewById(R.id.inUser);
-        passwordEdit = findViewById(R.id.inPassword);
+
+        usernameText = findViewById(R.id.username_text);
+        passwordText = findViewById(R.id.password_text);
         progressBar = findViewById(R.id.progress_bar);
-
         toRegisterButton = findViewById(R.id.to_register_button);
+        loginButton = findViewById(R.id.login_button);
 
-        login= (Button)findViewById(R.id.button_login);
-        login.setOnClickListener(v -> {
+        loginButton.setOnClickListener(v -> {
 
-            progressBar.setVisibility(View.VISIBLE);
+            setInProgress(true);
 
-            User user = new User(usernameEdit.getText().toString().trim(),
-                    passwordEdit.getText().toString().trim());
+            // Validate they are not blank
+            String username = usernameText.getEditText().getText().toString().trim();
+            String password = passwordText.getEditText().getText().toString().trim();
 
-            GymService gymService = ServiceBuilder.INSTANCE.buildService(GymService.class);
+            boolean validUsername = InputValidation.isValid(usernameText, username, "username");
+            boolean validPassword = InputValidation.isValid(passwordText, password, "password");
 
-            Call<User> loginCall = gymService.logIn(user);
-            loginCall.enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
+            if (!validUsername || !validPassword) {
+                setInProgress(false);
+                return;
+            }
 
-                    if (!response.isSuccessful()) {
-                        if (response.code() == 400) {
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "invalid username or password",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        } else {
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Response error: " + response.message(),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                        progressBar.setVisibility(View.GONE);
-                        return;
-                    }
+            // Create user to login
+            User user = new User(username, password);
+            UserManager.loginUser(user, this);
 
-                    String token = response.headers().get("auth-token");
-                    Intent firstIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    firstIntent.putExtra("auth-token", token);
-                    startActivity(firstIntent);
-                    finish();
-
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-
-                    Toast.makeText(
-                            LoginActivity.this,
-                            "Failure " + t.getMessage(),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    progressBar.setVisibility(View.GONE);
-
-                }
-            });
         });
 
         toRegisterButton.setOnClickListener(new View.OnClickListener() {
@@ -94,5 +64,39 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setInProgress(boolean inProgress) {
+        progressBar.setVisibility(inProgress ? View.VISIBLE : View.GONE);
+        loginButton.setEnabled(!inProgress);
+    }
+
+
+    @Override
+    public void onResponse(Call<User> call, Response<User> response) {
+        if (!response.isSuccessful()) {
+            if (response.code() == 400) {
+                Toast.makeText(LoginActivity.this, "invalid username or password",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(LoginActivity.this, "Response error: " + response.message(),
+                        Toast.LENGTH_LONG).show();
+            }
+            setInProgress(false);
+            return;
+        }
+
+        String token = response.headers().get("auth-token");
+        Intent firstIntent = new Intent(LoginActivity.this, MainActivity.class);
+        firstIntent.putExtra("auth-token", token);
+        startActivity(firstIntent);
+        finish();
+    }
+
+    @Override
+    public void onFailure(Call<User> call, Throwable t) {
+        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG)
+                .show();
+        setInProgress(false);
     }
 }
