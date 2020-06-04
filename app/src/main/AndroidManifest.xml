@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.itesm.gymwithme">
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,9 +18,9 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CameraXActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".QRCodeAnalyzer" />
+        <activity android:name=".CameraXActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
