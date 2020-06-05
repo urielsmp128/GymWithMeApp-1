@@ -60,5 +60,6 @@
     <string name="home_instructions">What do you want to do today?</string>
     <string name="view_all_routines">View All Routines</string>
     <string name="connect">Connect with\ncoach</string>
+    <string name="content_muscle">muscle image icon</string>
 
 </resources>
