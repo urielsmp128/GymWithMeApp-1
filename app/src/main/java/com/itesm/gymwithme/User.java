@@ -103,4 +103,15 @@ public class User {
             return "";
         }
     }
+
+    public String firstName() {
+        String str = "";
+        for (int i = 0; i < this.name.length(); i++) {
+            if (this.name.charAt(i) == ' ') {
+                break;
+            }
+            str += this.name.charAt(i);
+        }
+        return str;
+    }
 }

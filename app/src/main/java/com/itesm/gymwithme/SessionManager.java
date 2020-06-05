@@ -3,7 +3,7 @@ package com.itesm.gymwithme;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-class SessionManager {
+public class SessionManager {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -30,5 +30,14 @@ class SessionManager {
 
     public String getToken() {
         return sharedPreferences.getString("KEY_TOKEN", "");
+    }
+
+    public void setName(String user) {
+        editor.putString("KEY_NAME", user);
+        editor.commit();
+    }
+
+    public String getName() {
+        return sharedPreferences.getString("KEY_NAME", "User");
     }
 }

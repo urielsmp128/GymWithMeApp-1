@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Get token from session
         String token = sessionManager.getToken();
-        Toast.makeText(this, token, Toast.LENGTH_SHORT).show();
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navView = findViewById(R.id.nav_view);

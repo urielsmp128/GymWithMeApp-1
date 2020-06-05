@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements Callback<User> {
 
+    private static final String TAG = "LoginActivity";
     private Button loginButton;
     private TextInputLayout usernameText, passwordText;
     private ProgressBar progressBar;
@@ -84,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
     private void setInProgress(boolean inProgress) {
         progressBar.setVisibility(inProgress ? View.VISIBLE : View.GONE);
         loginButton.setEnabled(!inProgress);
+        toRegisterButton.setEnabled(!inProgress);
     }
 
 
@@ -91,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
     public void onResponse(Call<User> call, Response<User> response) {
         if (!response.isSuccessful()) {
             if (response.code() == 400) {
-                Toast.makeText(LoginActivity.this, "invalid username or password",
+                Toast.makeText(LoginActivity.this, "Invalid username or password",
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(LoginActivity.this, "Response error: " + response.message(),
@@ -107,6 +110,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
         sessionManager.setLogin(true);
         // Store token session
         sessionManager.setToken(token);
+        // Store name in session
+        sessionManager.setName(response.body().firstName());
         // Redirect to main
         redirectToMainActivity();
         // Finish activity
@@ -115,8 +120,9 @@ public class LoginActivity extends AppCompatActivity implements Callback<User> {
 
     @Override
     public void onFailure(Call<User> call, Throwable t) {
-        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG)
-                .show();
+        Toast.makeText(LoginActivity.this, "We are having troubles on our end, please try again",
+                Toast.LENGTH_LONG).show();
+        Log.d(TAG, t.getMessage());
         setInProgress(false);
     }
 }
