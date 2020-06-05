@@ -38,10 +38,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/home_instructions"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message_text" />
+        app:layout_constraintTop_toBottomOf="@+id/message_text"
+        style="@style/MyTitleStyle" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_scan"
@@ -121,7 +121,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_friends"
+        android:id="@+id/card_connect"
         style="@style/AppTheme.CardStyle"
         android:layout_width="180dp"
         android:layout_height="180dp"
@@ -150,7 +150,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/friends"
+                android:text="@string/connect"
                 android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 

@@ -58,5 +58,7 @@
     <string name="friends">Friends</string>
     <string name="welcome_msg">Welcome to the fittest app ever</string>
     <string name="home_instructions">What do you want to do today?</string>
+    <string name="view_all_routines">View All Routines</string>
+    <string name="connect">Connect with\ncoach</string>
 
 </resources>

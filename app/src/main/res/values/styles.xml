@@ -26,5 +26,10 @@
         <item name="cardBackgroundColor">?attr/colorAccent</item>
     </style>
 
+    <style name="MyTitleStyle">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+    </style>
+
 
 </resources>

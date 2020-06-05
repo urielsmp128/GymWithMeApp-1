@@ -9,7 +9,22 @@
         android:id="@+id/nav_home"
         android:name="com.itesm.gymwithme.ui.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_nav_social"
+            app:destination="@id/nav_social"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_about"
+            app:destination="@id/nav_about" />
+        <action
+            android:id="@+id/action_nav_home_to_routineListFragment"
+            app:destination="@id/routineListFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_cameraXActivity"
+            app:destination="@id/cameraXActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_social"
@@ -27,4 +42,13 @@
         android:name="com.itesm.gymwithme.ui.AboutFragment"
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/routineListFragment"
+        android:name="com.itesm.gymwithme.ui.RoutineListFragment"
+        android:label="fragment_routine_list"
+        tools:layout="@layout/fragment_routine_list" />
+    <activity
+        android:id="@+id/cameraXActivity"
+        android:name="com.itesm.gymwithme.CameraXActivity"
+        android:label="CameraXActivity" />
 </navigation>
