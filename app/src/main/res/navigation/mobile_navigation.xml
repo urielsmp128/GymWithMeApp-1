@@ -10,19 +10,23 @@
         android:name="com.itesm.gymwithme.ui.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_about"
+            app:destination="@id/nav_about" />
         <action
             android:id="@+id/action_nav_home_to_routineListFragment"
-            app:destination="@id/nav_routine_workout" />
+            app:destination="@id/routineListFragment" />
         <action
             android:id="@+id/action_nav_home_to_cameraXActivity"
             app:destination="@id/cameraXActivity" />
+
+        <action
+            android:id="@+id/action_nav_home_to_emailActivity"
+            app:destination="@id/emailActivity"/>
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_social"
-        android:name="com.itesm.gymwithme.ui.SocialFragment"
-        android:label="@string/menu_social"
-        tools:layout="@layout/fragment_social" />
+
 
     <fragment
         android:id="@+id/nav_qr_scan_workout"
@@ -35,21 +39,17 @@
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
     <fragment
-        android:id="@+id/nav_routine_workout"
+        android:id="@+id/routineListFragment"
         android:name="com.itesm.gymwithme.ui.RoutineListFragment"
-        android:label="@string/drawer_workout"
-        tools:layout="@layout/fragment_routine_list">
-        <action
-            android:id="@+id/action_routineListFragment_to_routineDetailFragment"
-            app:destination="@id/routineDetailFragment" />
-    </fragment>
+        android:label="fragment_routine_list"
+        tools:layout="@layout/fragment_routine_list" />
     <activity
         android:id="@+id/cameraXActivity"
         android:name="com.itesm.gymwithme.CameraXActivity"
         android:label="CameraXActivity" />
-    <fragment
-        android:id="@+id/routineDetailFragment"
-        android:name="com.itesm.gymwithme.ui.RoutineDetailFragment"
-        android:label="@string/drawer_workout"
-        tools:layout="@layout/fragment_routine_detail" />
+
+    <activity
+        android:id="@+id/emailActivity"
+        android:name="com.itesm.gymwithme.EmailActivity"
+        android:label="EmailActivity" />
 </navigation>

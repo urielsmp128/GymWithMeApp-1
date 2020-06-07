@@ -7,7 +7,6 @@
 
     <TextView
         android:id="@+id/title_text"
-        style="?attr/textAppearanceHeadline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <ImageView
-        android:id="@+id/difficulty_text_title"
+        android:id="@+id/difficulty_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,11 +59,11 @@
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/difficulty_text_title"
+        app:layout_constraintStart_toEndOf="@+id/difficulty_img"
         app:layout_constraintTop_toBottomOf="@+id/muscle_text" />
 
     <ImageView
-        android:id="@+id/author_text_title"
+        android:id="@+id/author_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -82,17 +81,15 @@
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/author_text_title"
+        app:layout_constraintStart_toEndOf="@+id/author_img"
         app:layout_constraintTop_toBottomOf="@+id/difficulty_text" />
 
     <ImageView
-        android:id="@+id/info_text_title"
+        android:id="@+id/info_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/author_text"
         app:srcCompat="@drawable/ic_card_info" />
@@ -104,13 +101,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:text="TextView"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/info_text_title"
+        app:layout_constraintStart_toEndOf="@+id/info_img"
         app:layout_constraintTop_toBottomOf="@+id/author_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

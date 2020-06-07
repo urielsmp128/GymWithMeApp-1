@@ -1,6 +1,7 @@
 package com.itesm.gymwithme
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.os.Bundle
@@ -20,6 +21,7 @@ import java.util.concurrent.Executors
 class CameraXActivity: AppCompatActivity(), LifecycleOwner {
     private val REQUEST_CODE_PERMISSIONS = 10
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    private val URLVIDEO = "com.itesm.gymwithme.URLVIDEO"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,11 +79,20 @@ class CameraXActivity: AppCompatActivity(), LifecycleOwner {
                 CameraX.unbind(imageAnalysis)
                 val title = qrCodes[0].url!!.title
                 val url = qrCodes[0].url!!.url
+                val url2 = url.toString()
 
                 AlertDialog.Builder(this)
                         .setTitle(title)
                         .setMessage("$url")
-                        .setPositiveButton(android.R.string.ok) { _, _ -> finish() }
+                        .setPositiveButton("Go to video") { _, _ ->
+                            finish()
+                            val firstIntent = Intent(this@CameraXActivity, YoutubePlayer::class.java)
+
+                            firstIntent.putExtra("URLVIDEO", url2);
+                            startActivity(firstIntent)
+                            finish()
+                        }
+
                         .create()
                         .show()
             }

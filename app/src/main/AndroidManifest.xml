@@ -19,7 +19,9 @@
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".EmailActivity"/>
         <activity android:name=".QRCodeAnalyzer" />
+        <activity android:name=".YoutubePlayer" />
         <activity android:name=".CameraXActivity" />
         <activity
             android:name=".LoginActivity"

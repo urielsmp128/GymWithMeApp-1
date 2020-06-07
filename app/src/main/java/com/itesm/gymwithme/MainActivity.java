@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navView = findViewById(R.id.nav_view);
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_social, R.id.nav_qr_scan_workout, R.id.nav_routine_workout)
+                R.id.nav_home, R.id.emailActivity, R.id.nav_qr_scan_workout, R.id.routineListFragment)
                 .setDrawerLayout(drawerLayout)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -13,8 +13,8 @@
     <string name="about">About</string>
     <string name="home">Home</string>
     <string name="title_activity_gym_home">GymHomeActivity</string>
-    <string name="nav_header_title">GymWithMe</string>
-    <string name="nav_header_subtitle">Dream it, do it</string>
+    <string name="nav_header_title">GymWithMe Admin</string>
+    <string name="nav_header_subtitle">user@gymwithme.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="menu_home">Home</string>
@@ -23,8 +23,8 @@
 
     <string name="home_second">Home Second</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="menu_social">Contact</string>
-    <string name="menu_qr">Detect</string>
+    <string name="menu_social">Connect with Coach</string>
+    <string name="menu_qr">Scan Workout</string>
     <string name="menu_about">About</string>
     <string name="scan_machine">Scan Now</string>
     <string name="app_title">Gym With Me</string>
@@ -61,14 +61,7 @@
     <string name="view_all_routines">View All Routines</string>
     <string name="connect">Connect with\ncoach</string>
     <string name="content_muscle">muscle image icon</string>
-    <string name="add">Add</string>
-    <string name="description_title">Title:</string>
-    <string name="description_author">Author:</string>
-    <string name="description_workout">Workout:</string>
-    <string name="description_level">Level:</string>
-    <string name="description_muscles">Muscle Group:</string>
-    <string name="content_image_qr">This is a qr image</string>
-    <string name="qr_instructions">With this feature, you can scan your local gym machine and automatically redirect you to a video instructor!</string>
-    <string name="menu_workout">Workout</string>
+
+    <string name="new_user_register_now">New User? Register Now</string>
 
 </resources>

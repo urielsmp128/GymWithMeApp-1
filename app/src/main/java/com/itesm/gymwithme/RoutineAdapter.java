@@ -1,7 +1,6 @@
 package com.itesm.gymwithme;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -43,25 +39,10 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
 
         holder.textTitle.setText(item.getTitle());
         holder.textMuscle.setText(item.printMuscles());
-        setColor(holder.imgLevel, item.getLevel());
+        holder.imgLevel.setColorFilter(context.getResources().getColor(R.color.colorPrimary));
         holder.textLevel.setText(item.getLevel());
-        holder.textAuthor.setText(item.getAuthor().getUsername());
+        holder.textAuthor.setText(item.getAuthor().getName());
         holder.textContent.setText(item.printExercises());
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle data = new Bundle();
-                data.putCharSequence("title", item.getTitle());
-                data.putCharSequence("muscles", item.printMuscles());
-                data.putCharSequence("level", item.getLevel());
-                data.putCharSequence("author", item.getAuthor().getUsername());
-                data.putCharSequence("workout", item.printExercises());
-                Navigation.findNavController(holder.itemView).navigate(
-                        R.id.action_routineListFragment_to_routineDetailFragment, data);
-            }
-        });
-
 
     }
 
@@ -79,32 +60,18 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
         TextView textContent;
         ImageView imgLevel;
 
-        MaterialCardView cardView;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textTitle = itemView.findViewById(R.id.title_text);
             textMuscle = itemView.findViewById(R.id.muscle_text);
             textLevel = itemView.findViewById(R.id.difficulty_text);
-            imgLevel = itemView.findViewById(R.id.difficulty_text_title);
+            imgLevel = itemView.findViewById(R.id.difficulty_img);
             textAuthor = itemView.findViewById(R.id.author_text);
             textContent = itemView.findViewById(R.id.info_text);
 
-            cardView = itemView.findViewById(R.id.card_routine_rv);
 
 
-
-        }
-    }
-
-    private void setColor(ImageView imgView, String level) {
-        if (level.equals("Beginner")) {
-            imgView.setColorFilter(context.getResources().getColor(R.color.colorEasy));
-        } else if (level.equals("Intermediate")) {
-            imgView.setColorFilter(context.getResources().getColor(R.color.colorIntermediate));
-        } else if (level.equals("Advanced")) {
-            imgView.setColorFilter(context.getResources().getColor(R.color.colorExpert));
         }
     }
 }
