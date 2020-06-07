@@ -11,16 +11,8 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_nav_home_to_nav_social"
-            app:destination="@id/nav_social"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_about"
-            app:destination="@id/nav_about" />
-        <action
             android:id="@+id/action_nav_home_to_routineListFragment"
-            app:destination="@id/routineListFragment" />
+            app:destination="@id/nav_routine_workout" />
         <action
             android:id="@+id/action_nav_home_to_cameraXActivity"
             app:destination="@id/cameraXActivity" />
@@ -43,12 +35,21 @@
         android:label="@string/about"
         tools:layout="@layout/fragment_about" />
     <fragment
-        android:id="@+id/routineListFragment"
+        android:id="@+id/nav_routine_workout"
         android:name="com.itesm.gymwithme.ui.RoutineListFragment"
-        android:label="fragment_routine_list"
-        tools:layout="@layout/fragment_routine_list" />
+        android:label="@string/drawer_workout"
+        tools:layout="@layout/fragment_routine_list">
+        <action
+            android:id="@+id/action_routineListFragment_to_routineDetailFragment"
+            app:destination="@id/routineDetailFragment" />
+    </fragment>
     <activity
         android:id="@+id/cameraXActivity"
         android:name="com.itesm.gymwithme.CameraXActivity"
         android:label="CameraXActivity" />
+    <fragment
+        android:id="@+id/routineDetailFragment"
+        android:name="com.itesm.gymwithme.ui.RoutineDetailFragment"
+        android:label="@string/drawer_workout"
+        tools:layout="@layout/fragment_routine_detail" />
 </navigation>

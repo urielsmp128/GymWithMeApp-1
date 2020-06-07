@@ -7,4 +7,7 @@
     <color name="colorLight">#b3e6ff</color>
     <color name="colorMedium">#248f8f</color>
     <color name="colorCardSecondary">#f97662</color>
+    <color name="colorEasy">#8bc34a</color>
+    <color name="colorIntermediate">#ffeb3b</color>
+    <color name="colorExpert">#f44336</color>
 </resources>
