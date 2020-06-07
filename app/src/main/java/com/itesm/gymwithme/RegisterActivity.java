@@ -31,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
     private TextInputLayout passwordText;
     private TextInputLayout beenWorkingOutText;
 
+    private SessionManager sessionManager;
+
     private ProgressBar progressBar;
 
     private final Callback<User> loginCallback = new Callback<User>() {
@@ -55,10 +57,17 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
                 return;
             }
 
+            // Get token
             String token = response.headers().get("auth-token");
-            Intent firstIntent = new Intent(RegisterActivity.this, MainActivity.class);
-            firstIntent.putExtra("auth-token", token);
-            startActivity(firstIntent);
+            // Store login session
+            sessionManager.setLogin(true);
+            // Store token session
+            sessionManager.setToken(token);
+            // Store name in session
+            sessionManager.setName(response.body().firstName());
+            // Redirect to main
+            redirectToMainActivity();
+            // Finish activity
             finish();
 
         }
@@ -80,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         registerButton = findViewById(R.id.button_register);
         cancelButton = findViewById(R.id.button_cancel);
@@ -155,19 +166,26 @@ public class RegisterActivity extends AppCompatActivity implements Callback<User
         registerButton.setEnabled(!inProgress);
     }
 
+    private void redirectToMainActivity() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
+    }
+
     @Override
     public void onResponse(Call<User> call, Response<User> response) {
         if (!response.isSuccessful()) {
-            Log.e("ERROR", response.message());
+            usernameText.setError("the username already exists");
+            setInProgress(false);
             return;
         }
         Log.d("User registered", "User registered");
+        Toast.makeText(getApplicationContext(), "redirecting to login in...", Toast.LENGTH_SHORT).show();
         UserManager.loginUser(response.body(), loginCallback);
     }
 
     @Override
     public void onFailure(Call<User> call, Throwable t) {
-        Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "We are having problems in our end, please try again", Toast.LENGTH_SHORT).show();
         setInProgress(false);
     }
 }
